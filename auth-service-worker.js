@@ -27,7 +27,6 @@ self.addEventListener("fetch", (event) => {
   event.respondWith(fetchWithFirebaseHeaders(event.request));
 });
 
-// TODO: add Firebase Authentication headers to request
 async function fetchWithFirebaseHeaders(request) {
   const app = initializeApp(firebaseConfig);
   const auth = getAuth(app);
@@ -38,14 +37,11 @@ async function fetchWithFirebaseHeaders(request) {
     getToken(installations),
   ]);
   headers.append("Firebase-Instance-ID-Token", installationToken);
-  if (authIdToken) {
-    headers.append("Authorization", `Bearer ${authIdToken}`);
-  }
+  if (authIdToken) headers.append("Authorization", `Bearer ${authIdToken}`);
   const newRequest = new Request(request, { headers });
   return await fetch(newRequest);
 }
 
-// TODO: get user token
 async function getAuthIdToken(auth) {
   await auth.authStateReady();
   if (!auth.currentUser) return;

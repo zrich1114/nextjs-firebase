@@ -13,7 +13,11 @@ export async function getAuthenticatedAppForUser() {
   console.log("firebaseConfig", JSON.stringify(firebaseConfig));
   const firebaseServerApp = initializeServerApp(
     firebaseConfig,
-    idToken ? { authIdToken: idToken } : {}
+    idToken
+      ? {
+          authIdToken: idToken,
+        }
+      : {}
   );
 
   const auth = getAuth(firebaseServerApp);
